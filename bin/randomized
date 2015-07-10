@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+var randomized = require('..');
+
+if (require.main === module) {
+  if (process.stdin.isTTY) {
+    var data = process.argv.slice(2).join(' ');
+    var output = randomized.convert(data.trim());
+    console.log(output);
+  }
+  else {
+    randomized.readStream(process.stdin, function(error, data) {
+      if (error) throw error;
+      var output = randomized.convert(data.trim());
+      console.log(output);
+    });
+  }
+}
