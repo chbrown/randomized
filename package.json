@@ -1,6 +1,6 @@
 {
   "name": "randomized",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Randomize strings while adhering to patterns",
   "keywords": [
     "data",
