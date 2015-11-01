@@ -119,16 +119,10 @@ export function convert(input: string): string {
   throw new Error(`Unable to recognize format of input: ${input}`)
 }
 
-export function readStream(stream, callback: (error: Error, data?: string) => void) {
+export function readToEnd(stream, callback: (error: Error, data?: string) => void) {
   var chunks = [];
   stream
-  .on('error', (error) => {
-    callback(error);
-  })
-  .on('data', (chunk) => {
-    chunks.push(chunk);
-  })
-  .on('end', () => {
-    callback(null, chunks.join(''));
-  });
+  .on('error', error => callback(error))
+  .on('data', chunk => chunks.push(chunk))
+  .on('end', () => callback(null, chunks.join('')));
 }

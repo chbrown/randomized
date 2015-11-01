@@ -34,7 +34,7 @@ if (require.main === module) {
     readWrite(data);
   }
   else {
-    randomized.readStream(process.stdin, function(error, data) {
+    randomized.readToEnd(process.stdin, function(error, data) {
       if (error) {
         console.error('Error reading STDIN: ' + error.toString());
         process.exit(66); // EX_NOINPUT: cannot open input

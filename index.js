@@ -106,17 +106,11 @@ function convert(input) {
     throw new Error("Unable to recognize format of input: " + input);
 }
 exports.convert = convert;
-function readStream(stream, callback) {
+function readToEnd(stream, callback) {
     var chunks = [];
     stream
-        .on('error', function (error) {
-        callback(error);
-    })
-        .on('data', function (chunk) {
-        chunks.push(chunk);
-    })
-        .on('end', function () {
-        callback(null, chunks.join(''));
-    });
+        .on('error', function (error) { return callback(error); })
+        .on('data', function (chunk) { return chunks.push(chunk); })
+        .on('end', function () { return callback(null, chunks.join('')); });
 }
-exports.readStream = readStream;
+exports.readToEnd = readToEnd;
