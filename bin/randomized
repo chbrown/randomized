@@ -3,18 +3,42 @@ var randomized = require('..');
 
 function readWrite(input) {
   var trailing_whitespace = input.match(/\s*$/);
-  var output = randomized.convert(input.trim());
-  process.stdout.write(output + trailing_whitespace);
+  try {
+    var output = randomized.convert(input.trim());
+    process.stdout.write(output + trailing_whitespace);
+  }
+  catch (exception) {
+    console.error(exception.toString());
+    process.exit(1);
+  }
 }
 
 if (require.main === module) {
+  if (process.argv.indexOf('--help') > -1) {
+    console.log([
+      'randomized: Randomize strings while adhering to patterns',
+      '',
+      'Usage: Input can be piped in on STDIN or provided as command line arguments.',
+      '       When run in a TTY context, it will join all command line arguments with',
+      '       a space and use that as the input. Otherwise, all command line arguments',
+      '       will be ignored and it will read STDIN until the end as the input.',
+      '',
+      'Examples: pbpaste | randomized',
+      '          randomized 78.2.17.68',
+    ].join('\n'));
+    process.exit();
+  }
+
   if (process.stdin.isTTY) {
     var data = process.argv.slice(2).join(' ');
     readWrite(data);
   }
   else {
     randomized.readStream(process.stdin, function(error, data) {
-      if (error) throw error;
+      if (error) {
+        console.error('Error reading STDIN: ' + error.toString());
+        process.exit(66); // EX_NOINPUT: cannot open input
+      }
       readWrite(data);
     });
   }
