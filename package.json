@@ -8,8 +8,10 @@
     "randomization"
   ],
   "homepage": "https://github.com/chbrown/randomized",
-  "repository": "git://github.com/chbrown/randomized.git",
-  "bugs": "https://github.com/chbrown/randomized/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chbrown/randomized.git"
+  },
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "license": "MIT",
   "bin": {
