@@ -31,6 +31,10 @@ function uuid(pop: string) {
   return `${sample(pop, 8)}-${sample(pop, 4)}-${sample(pop, 4)}-${sample(pop, 4)}-${sample(pop, 12)}`;
 }
 
+function mac(pop: string, separator: string) {
+  return [sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2)].join(separator);
+}
+
 const predefined_formats: Format[] = [
   {
     // uppercase uuid
@@ -41,6 +45,16 @@ const predefined_formats: Format[] = [
     // lowercase uuid
     regExp: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/,
     generate: (input) => uuid(HEXA_LOWER)
+  },
+  {
+    // uppercase MAC address (6 hexadecimal pairs separated by -, :, or .)
+    regExp: /^[0-9A-F]{2}([-:.])[0-9A-F]{2}\1[0-9A-F]{2}\1[0-9A-F]{2}\1[0-9A-F]{2}\1[0-9A-F]{2}$/,
+    generate: (input) => mac(HEXA_UPPER, input[2])
+  },
+  {
+    // lowercase MAC address (6 hexadecimal pairs separated by -, :, or .)
+    regExp: /^[0-9a-f]{2}([-:.])[0-9a-f]{2}\1[0-9a-f]{2}\1[0-9a-f]{2}\1[0-9a-f]{2}\1[0-9a-f]{2}$/,
+    generate: (input) => mac(HEXA_LOWER, input[2])
   },
   {
     // IPv4
