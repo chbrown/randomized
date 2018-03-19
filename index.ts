@@ -1,36 +1,36 @@
 interface Format {
-  regExp: RegExp;
-  generate(input: string): string;
+  regExp: RegExp
+  generate(input: string): string
 }
 
-const DIGITS = '0123456789';
-const HEXA_UPPER = '0123456789ABCDEF';
-const HEXA_LOWER = '0123456789abcdef';
-const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz';
-const ALPHA_MIXED = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-const ALPHANUMERIC_UPPER = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const ALPHANUMERIC_LOWER = '0123456789abcdefghijklmnopqrstuvwxyz';
-const ALPHANUMERIC_MIXED = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const DIGITS = '0123456789'
+const HEXA_UPPER = '0123456789ABCDEF'
+const HEXA_LOWER = '0123456789abcdef'
+const ALPHA_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz'
+const ALPHA_MIXED = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+const ALPHANUMERIC_UPPER = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHANUMERIC_LOWER = '0123456789abcdefghijklmnopqrstuvwxyz'
+const ALPHANUMERIC_MIXED = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 
 function sample(population: string, length: number): string {
-  const choices: string[] = [];
+  const choices: string[] = []
   for (let i = 0; i < length; i++) {
-    choices.push(population[(Math.random() * population.length) | 0]);
+    choices.push(population[(Math.random() * population.length) | 0])
   }
-  return choices.join('');
+  return choices.join('')
 }
 
 function randomInteger(min: number, max: number): number {
-  return ((Math.random() * (max - min)) + min) | 0;
+  return ((Math.random() * (max - min)) + min) | 0
 }
 
 function uuid(pop: string) {
-  return `${sample(pop, 8)}-${sample(pop, 4)}-${sample(pop, 4)}-${sample(pop, 4)}-${sample(pop, 12)}`;
+  return `${sample(pop, 8)}-${sample(pop, 4)}-${sample(pop, 4)}-${sample(pop, 4)}-${sample(pop, 12)}`
 }
 
 function mac(pop: string, separator: string) {
-  return [sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2)].join(separator);
+  return [sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2), sample(pop, 2)].join(separator)
 }
 
 const predefined_formats: Format[] = [
@@ -58,7 +58,7 @@ const predefined_formats: Format[] = [
     // IPv4
     regExp: /^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/,
     generate: (input) => {
-      return `${randomInteger(0, 256)}.${randomInteger(0, 256)}.${randomInteger(0, 256)}.${randomInteger(0, 256)}`;
+      return `${randomInteger(0, 256)}.${randomInteger(0, 256)}.${randomInteger(0, 256)}.${randomInteger(0, 256)}`
     },
   },
   {
@@ -110,9 +110,9 @@ const predefined_formats: Format[] = [
 
 export function convert(input: string): string {
   for (let i = 0, l = predefined_formats.length; i < l; i++) {
-    const format = predefined_formats[i];
+    const format = predefined_formats[i]
     if (format.regExp.test(input)) {
-      return format.generate(input);
+      return format.generate(input)
     }
   }
   throw new Error(`Unable to recognize format of input: ${input}`)
@@ -124,5 +124,5 @@ export function readToEnd(stream: NodeJS.ReadableStream,
   stream
   .on('error', callback)
   .on('data', chunk => chunks.push(chunk))
-  .on('end', () => callback(null, chunks.join('')));
+  .on('end', () => callback(null, chunks.join('')))
 }

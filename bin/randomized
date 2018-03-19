@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-var randomized = require('..');
+var randomized = require('..')
 
 function readWrite(input) {
-  var trailing_whitespace = input.match(/\s*$/);
+  var trailing_whitespace = input.match(/\s*$/)
   try {
-    var output = randomized.convert(input.trim());
-    process.stdout.write(output + trailing_whitespace);
+    var output = randomized.convert(input.trim())
+    process.stdout.write(output + trailing_whitespace)
   }
   catch (exception) {
-    console.error(exception.toString());
-    process.exit(1);
+    console.error(exception.toString())
+    process.exit(1)
   }
 }
 
@@ -25,21 +25,21 @@ if (require.main === module) {
       '',
       'Examples: pbpaste | randomized',
       '          randomized 78.2.17.68',
-    ].join('\n'));
-    process.exit();
+    ].join('\n'))
+    process.exit()
   }
 
   if (process.stdin.isTTY) {
-    var data = process.argv.slice(2).join(' ');
-    readWrite(data);
+    var data = process.argv.slice(2).join(' ')
+    readWrite(data)
   }
   else {
     randomized.readToEnd(process.stdin, function(error, data) {
       if (error) {
-        console.error('Error reading STDIN: ' + error.toString());
-        process.exit(66); // EX_NOINPUT: cannot open input
+        console.error('Error reading STDIN: ' + error.toString())
+        process.exit(66) // EX_NOINPUT: cannot open input
       }
-      readWrite(data);
-    });
+      readWrite(data)
+    })
   }
 }
