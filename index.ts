@@ -118,7 +118,7 @@ export function convert(input: string): string {
   throw new Error(`Unable to recognize format of input: ${input}`)
 }
 
-export function readToEnd(stream: NodeJS.ReadableStream,
+function readToEnd(stream: NodeJS.ReadableStream,
                           callback: (error: Error, data?: string) => void) {
   const chunks: Buffer[] = []
   stream
@@ -129,4 +129,51 @@ export function readToEnd(stream: NodeJS.ReadableStream,
   .on('end', () => {
     callback(null, Buffer.concat(chunks).toString())
   })
+}
+
+function readWrite(input: string) {
+  const [trailing_whitespace = ''] = input.match(/\s*$/)
+  try {
+    const output = convert(input.trim())
+    process.stdout.write(output + trailing_whitespace)
+  }
+  catch (exception) {
+    console.error(exception)
+    process.exit(1)
+  }
+}
+
+const usage = `randomized: Randomize strings while adhering to patterns
+
+Usage: Input can be piped in on STDIN or provided as command line arguments.
+       When run in a TTY context, it will join all command line arguments with
+       a space and use that as the input. Otherwise, all command line arguments
+       will be ignored and it will read STDIN until the end as the input.
+
+Examples: pbpaste | randomized
+          randomized 78.2.17.68`
+
+export function main(argv: string[] = process.argv) {
+  if (argv.indexOf('--help') > -1) {
+    console.log(usage)
+    process.exit()
+  }
+
+  if (process.stdin.isTTY) {
+    const data = argv.slice(2).join(' ')
+    readWrite(data)
+  }
+  else {
+    readToEnd(process.stdin, (error, data) => {
+      if (error) {
+        console.error(`Error reading STDIN: ${error.toString()}`)
+        process.exit(66) // EX_NOINPUT: cannot open input
+      }
+      readWrite(data)
+    })
+  }
+}
+
+if (require.main === module) {
+  main()
 }
