@@ -119,7 +119,7 @@ export function convert(input: string): string {
 }
 
 function readToEnd(stream: NodeJS.ReadableStream,
-                          callback: (error: Error, data?: string) => void) {
+                   callback: (error: Error, data?: string) => void) {
   const chunks: Buffer[] = []
   stream
   .on('error', callback)
