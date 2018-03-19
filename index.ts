@@ -1,5 +1,3 @@
-declare var process, require, module;
-
 interface Format {
   regExp: RegExp;
   generate: (input: string) => string;
