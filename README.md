@@ -1,5 +1,7 @@
 # randomized
 
+[![latest version published to npm](https://badge.fury.io/js/randomized.svg)](https://www.npmjs.com/package/randomized)
+
 Randomize string input, e.g., for documentation examples.
 
     npm install -g randomized
@@ -26,4 +28,5 @@ Or as a module:
 
 ## License
 
-Copyright 2015 Christopher Brown. [MIT Licensed](http://chbrown.github.io/licenses/MIT/#2015).
+Copyright 2015-2018 Christopher Brown.
+[MIT Licensed](https://chbrown.github.io/licenses/MIT/#2015-2018).
