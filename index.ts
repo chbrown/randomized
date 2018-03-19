@@ -120,9 +120,13 @@ export function convert(input: string): string {
 
 export function readToEnd(stream: NodeJS.ReadableStream,
                           callback: (error: Error, data?: string) => void) {
-  const chunks = []
+  const chunks: Buffer[] = []
   stream
   .on('error', callback)
-  .on('data', chunk => chunks.push(chunk))
-  .on('end', () => callback(null, chunks.join('')))
+  .on('data', (chunk: Buffer | string) => {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
+  })
+  .on('end', () => {
+    callback(null, Buffer.concat(chunks).toString())
+  })
 }
